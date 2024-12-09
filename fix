@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Detect the Wi-Fi interface name
+interface=$(ip link | grep -oE 'wl[ps0-9]+')
+
+if [ -z "$interface" ]; then
+    echo "Wi-Fi interface not found."
+    exit 1
+fi
+
+# Fetch the IP address of the detected Wi-Fi interface
+ip_address=$(/usr/sbin/ifconfig $interface | grep "inet " | awk '{print $2}')
+echo "%{F#ffffff}  %{F#ffffff}$ip_address%{u-}"
